@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "short_history_of_earth"
+
+ShortHistoryOfEarth::CLI.new.call

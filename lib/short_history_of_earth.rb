@@ -1,0 +1,10 @@
+require "nokogiri"
+require "pry"
+require "open-uri"
+
+require_relative "./short_history_of_earth/version"
+require_relative "./short_history_of_earth/cli"
+require_relative "./short_history_of_earth/maya"
+require_relative "./short_history_of_earth/bernes"
+require_relative "./short_history_of_earth/science"
+require_relative "./short_history_of_earth/next_control"
