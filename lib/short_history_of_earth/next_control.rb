@@ -1,5 +1,5 @@
 class ShortHistoryOfEarth::Next_Control
-  
+  attr_accessor :normalized_response, :response, :filter_response
   def self.next_item
     @response=ShortHistoryOfEarth::CLI.response
     @last_response=ShortHistoryOfEarth::Science.last_response
@@ -25,8 +25,7 @@ class ShortHistoryOfEarth::Next_Control
   end
   
   def self.normalize_response
-    next_item
-    @normalized_response=@response.downcase
+    order_response
     @normalized_response=@normalized_response.gsub("billions","billion").gsub("millions","million")
     if @normalized_response[0]!="-"
       if @normalized_response.include? "billion"
@@ -39,13 +38,27 @@ class ShortHistoryOfEarth::Next_Control
         end
       end
     end
-    filtered_response=[]
-    @normalized_response.split.each do |segment|
-      if segment =="billion"||segment=="million"||/\d/.match(segment)
-        filtered_response << segment
-      end
+     @normalized_response           
+  end
+  
+  def self.filter_words
+   next_item
+    @filter_response=@response.downcase.split
+     @filter_response.select! do |segment|
+      segment =="billion"||segment=="million"||/\d/.match(segment)
                                     end
-    @normalized_response=filtered_response.join(" ")
+  end
+  
+  def self.order_response
+    filter_words
+    @normalized_response=[]
+    if !/\d/.match(@filter_response[0])
+      @normalized_response << @filter_response[1]
+      @normalized_response << @filter_response[0]
+    else
+      @normalized_response=@filter_response
+    end
+    @normalized_response=@normalized_response.join(" ")
   end
     
 end
